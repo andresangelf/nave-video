@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NAVE · Tech Company &amp; Venture Builder</title>
+<meta name="description" content="Película de marca de NAVE: una tech company y venture builder. Bitácora de despegue.">
+<meta name="theme-color" content="#00131D">
+<meta property="og:title" content="NAVE · Tech Company & Venture Builder">
+<meta property="og:description" content="Película de marca. Listos para el despegue.">
+<meta property="og:image" content="media/poster.jpg">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main id="app" class="app" data-estado="inicio">
+  <div class="escena" id="escena">
+    <video id="video" playsinline muted preload="auto" disablepictureinpicture></video>
+
+    <button class="toque" id="toque" aria-label="Pausar o reproducir" tabindex="-1"></button>
+    <div class="destello" id="destello" aria-hidden="true"></div>
+  </div>
+
+  <section class="barra" id="barra" aria-label="Controles">
+    <div class="barra__linea">
+      <button class="btn btn--icono" id="bPlay" data-t-aria="play" aria-label="Pausa">
+        <svg class="i i-pausa" viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+        <svg class="i i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg>
+      </button>
+
+      <div class="linea">
+        <input class="linea__rango" id="rango" type="range" min="0" max="1000" value="0" step="1" data-t-aria="linea" aria-label="Línea de tiempo">
+        <div class="linea__fondo"><div class="linea__avance" id="avance"></div></div>
+      </div>
+      <span class="tiempo" id="tiempo">0:00 / 0:00</span>
+
+      <div class="idiomas" id="idiomas" role="group" aria-label="Idioma del audio"></div>
+
+      <button class="btn btn--icono" id="bMudo" data-t-aria="mudo" aria-label="Silenciar">
+        <svg class="i i-vol" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5zM15 8.5a5 5 0 0 1 0 7M17.5 6a8.5 8.5 0 0 1 0 12" fill-rule="evenodd"/><path class="o" d="M15 8.5a5 5 0 0 1 0 7M17.5 6a8.5 8.5 0 0 1 0 12"/></svg>
+        <svg class="i i-mudo" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z"/><path class="o" d="M16 9.5l5 5M21 9.5l-5 5"/></svg>
+      </button>
+      <button class="btn btn--icono" id="bPantalla" data-t-aria="pantalla" aria-label="Pantalla completa">
+        <svg class="i" viewBox="0 0 24 24"><path class="o" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+      </button>
+    </div>
+
+    <div class="barra__pie">
+      <a class="cta" id="cta" href="#" target="_blank" rel="noopener" hidden><span id="ctaTexto"></span>
+        <svg class="i" viewBox="0 0 24 24"><path class="o" d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <nav class="redes" id="redes" aria-label="Redes sociales"></nav>
+    </div>
+  </section>
+
+  <!-- Entrada: elegir idioma y empezar (el navegador exige un toque para dar audio) -->
+  <div class="inicio" id="inicio">
+    <img class="inicio__poster" id="poster" alt="">
+    <div class="inicio__velo"></div>
+    <div class="inicio__caja">
+      <p class="inicio__marca">NAVE</p>
+      <h1 class="inicio__titulo" data-t="titulo">Listos para el despegue.</h1>
+      <p class="inicio__sub" data-t="elige">Elige el idioma del audio</p>
+      <div class="inicio__idiomas" id="inicioIdiomas"></div>
+      <p class="inicio__nota" id="notaAudio" hidden></p>
+    </div>
+  </div>
+</main>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

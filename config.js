@@ -4,15 +4,11 @@
 window.NAVE_CONFIG = {
   titulo: 'NAVE · Tech Company & Venture Builder',
 
-  // Video sin audio. Se elige 720p en pantallas chicas o conexiones lentas.
-  video: {
-    alta: 'media/nave-1080.mp4',
-    baja: 'media/nave-720.mp4',
-    poster: 'media/poster.jpg',
-  },
+  // Imagen de portada (pantalla de inicio y vista previa al compartir).
+  poster: 'media/poster.jpg',
 
   // Un audio por idioma. Si el archivo no existe, el botón de ese idioma queda desactivado.
-  // `desfase` (segundos) mueve el audio respecto al video si hiciera falta afinar la sincronía.
+  // `desfase` (segundos) mueve el audio respecto a la película si hiciera falta afinar la sincronía.
   idiomas: [
     { id: 'es', etiqueta: 'ES', nombre: 'Español', audio: 'audio/es.m4a', desfase: 0 },
     { id: 'en', etiqueta: 'EN', nombre: 'English', audio: 'audio/en.m4a', desfase: 0 },

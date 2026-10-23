@@ -12,7 +12,7 @@ button { font: inherit; color: inherit; }
 
 /* ── escena ── */
 .escena { position: relative; flex: 1 1 auto; min-height: 0; background: var(--noche); overflow: hidden; }
-.escena video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: var(--noche); }
+.escena canvas { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: block; background: var(--noche); }
 .toque { position: absolute; inset: 0; background: none; border: 0; padding: 0; cursor: pointer; }
 .destello { position: absolute; left: 50%; top: 50%; width: 76px; height: 76px; margin: -38px 0 0 -38px; border-radius: 50%;
   background: rgba(0,19,29,.6); opacity: 0; pointer-events: none; }
@@ -92,7 +92,7 @@ button { font: inherit; color: inherit; }
 }
 @media (max-width: 380px) { .redes a { width: 40px; height: 40px; } .redes { gap: 6px; } }
 
-/* ── celular vertical: video 16:9 y controles juntos, al centro ── */
+/* ── celular vertical: película 16:9 y controles juntos, al centro ── */
 @media (orientation: portrait) and (max-width: 900px) {
   .app { justify-content: center; }
   .escena { flex: 0 0 auto; aspect-ratio: 16 / 9; }
@@ -100,7 +100,7 @@ button { font: inherit; color: inherit; }
   .inicio__poster { display: none; }
 }
 
-/* ── celular horizontal (poca altura): todo en una fila y el video manda ── */
+/* ── celular horizontal (poca altura): todo en una fila y la película manda ── */
 @media (max-height: 460px) and (orientation: landscape) {
   .barra { flex-direction: row; align-items: center; gap: 14px; padding-top: 6px; padding-bottom: calc(6px + env(safe-area-inset-bottom)); }
   .barra__linea { flex: 1 1 auto; }

@@ -10,12 +10,15 @@
 <meta property="og:description" content="Película de marca. Listos para el despegue.">
 <meta property="og:image" content="media/poster.jpg">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <main id="app" class="app" data-estado="inicio">
   <div class="escena" id="escena">
-    <video id="video" playsinline muted preload="auto" disablepictureinpicture></video>
+    <canvas id="lienzo" role="img" aria-label="NAVE · Tech Company &amp; Venture Builder. Película de marca."></canvas>
 
     <button class="toque" id="toque" aria-label="Pausar o reproducir" tabindex="-1"></button>
     <div class="destello" id="destello" aria-hidden="true"></div>
@@ -66,6 +69,6 @@
   </div>
 </main>
 <script src="config.js"></script>
-<script src="app.js"></script>
+<script type="module" src="app.js"></script>
 </body>
 </html>

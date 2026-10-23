@@ -3,11 +3,11 @@
 // si no hay audio para el idioma, corre un reloj propio. Todo se calcula a partir del tiempo,
 // así que pausar, saltar o cambiar de idioma siempre dejan la imagen en el cuadro exacto.
 
-import { crearPelicula, DURACION, W, H } from './motor/pelicula.js';
+import { crearVivo } from './motor/vivo.js';
 
 const C = window.NAVE_CONFIG;
 const $ = (id) => document.getElementById(id);
-const app = $('app'), escena = $('escena'), lienzo = $('lienzo');
+const app = $('app'), escena = $('escena');
 const rango = $('rango'), avance = $('avance'), tiempo = $('tiempo');
 
 const TXT = {
@@ -31,11 +31,10 @@ const ICONOS = {
 };
 const svg = (p) => `<svg viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`;
 
-// ── película ──
-const pelicula = crearPelicula();
-const duracion = Math.min(DURACION, pelicula.duracion);
+// ── película: fondo en canvas + escenas en HTML que se reacomodan a la pantalla ──
 const reducido = matchMedia('(prefers-reduced-motion: reduce)');
-const ctx = lienzo.getContext('2d');
+const vivo = crearVivo($('pel'), { reducido: () => reducido.matches });
+const duracion = vivo.duracion;
 
 // ── estado ──
 let lang = null, audio = null;
@@ -59,28 +58,16 @@ function mover(s) {
   if (audio) audio.currentTime = s + desfase();
 }
 
-// ── dibujo: canvas 16:9 ajustado al espacio, a la resolución real de la pantalla ──
-let caja = { w: 640, h: 360 };
-function medir() {
-  const r = escena.getBoundingClientRect();
-  const w = Math.min(r.width, (r.height * 16) / 9);
-  caja = { w, h: (w * 9) / 16 };
-  lienzo.style.width = `${caja.w}px`; lienzo.style.height = `${caja.h}px`;
-}
-new ResizeObserver(medir).observe(escena); medir();
-
-function dibujar(tt) {
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const pw = Math.max(480, Math.min(W, Math.round(caja.w * dpr))), ph = Math.round((pw * 9) / 16);
-  if (lienzo.width !== pw) { lienzo.width = pw; lienzo.height = ph; }
-  ctx.setTransform(pw / W, 0, 0, ph / H, 0, 0);
-  pelicula.render(ctx, tt, { reducido: reducido.matches, bucle: true });
-}
+// ── medida: se recalcula con el tamaño de la pantalla y cuando cargan las tipografías ──
+let medidaPend = 0;
+const medir = () => { cancelAnimationFrame(medidaPend); medidaPend = requestAnimationFrame(() => vivo.medir()); };
+new ResizeObserver(medir).observe(escena);
+window.addEventListener('orientationchange', medir);
 
 function cuadro() {
   const p = pos();
   if (jugando && p >= duracion - 0.04) reiniciar();
-  dibujar(p);
+  vivo.render(p);
   const f = duracion ? Math.min(1, p / duracion) : 0;
   if (!arrastrando) rango.value = Math.round(f * 1000);
   avance.style.width = `${f * 100}%`;
@@ -237,6 +224,10 @@ for (const r of C.redes || []) {
 }
 
 // ── arranque ──
+// ?t=SEGUNDOS abre la película detenida en ese instante (útil para revisar una escena)
+const qt = new URLSearchParams(location.search).get('t');
+if (qt !== null && isFinite(+qt)) { reloj.base = Math.min(+qt, duracion - 0.05); app.dataset.estado = 'reproduciendo'; }
+
 $('poster').src = C.poster;
 app.dataset.pausa = '1'; app.dataset.mudo = '0';
 lang = C.idiomaInicial; textos();
@@ -250,4 +241,4 @@ Promise.all(C.idiomas.map(async (l) => { disponible[l.id] = await existe(l.audio
   textos(); pintarIdiomas();
   if (!C.idiomas.some((l) => disponible[l.id])) { const na = $('notaAudio'); na.hidden = false; na.textContent = t('sinAudio'); }
 });
-fuentesListas.then(() => requestAnimationFrame(cuadro));
+fuentesListas.then(() => { vivo.medir(); requestAnimationFrame(cuadro); setTimeout(() => vivo.medir(), 400); });

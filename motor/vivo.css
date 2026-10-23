@@ -1,0 +1,247 @@
+/* NAVE · película en vivo · capa HTML
+   Todo se mide en «unidades de diseño» (--d px). En horizontal (.h) la escena es un
+   escenario 16:9 de 2560 × 1440 unidades centrado en la pantalla; en vertical (.v) el
+   escenario ocupa toda la pantalla con 1200 unidades de ancho y el contenido se apila. */
+
+.pel { position: absolute; inset: 0; isolation: isolate; overflow: hidden; background: #00131D; color: #FFF5EE;
+  --crema: #FFF5EE; --niebla: #D7E1E2; --espacio: #012436; --noche: #00131D; --tueste: #210A05;
+  --ign: #E55C41; --ambar: #EFA441; --acero: #798E91;
+  --sans: "Standerd", "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Lenia Mono", "JetBrains Mono", ui-monospace, Menlo, monospace;
+  font-family: var(--sans); }
+.pel canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+.pel .st { position: absolute; pointer-events: none; }
+.pel .capa-esc { z-index: 1; } .pel #barrido { z-index: 2; } .pel .capa-hud { z-index: 3; }
+.pel #fondo { z-index: 0; }
+
+/* ── escenas ── */
+.esc { position: absolute; inset: 0; visibility: hidden; }
+.esc.on { visibility: visible; }
+.esc * { box-sizing: border-box; }
+.esc .abs { position: absolute; }
+.t-espacio { color: var(--espacio); } .t-crema { color: var(--crema); } .t-tueste { color: var(--tueste); }
+
+.lab { position: absolute; font: 500 calc(var(--d) * 40) var(--mono); letter-spacing: calc(var(--d) * 5); color: var(--ign); white-space: pre; line-height: 1; }
+.mono { font-family: var(--mono); } .sans { font-family: var(--sans); }
+.txt { white-space: pre; } .txt .g { visibility: hidden; }
+.pel.v .txt.env { white-space: pre-wrap; }
+
+/* bloque tipográfico: cada palabra entra con máscara */
+.bq { position: absolute; letter-spacing: -.012em; font-weight: 700; }
+.bq .w { display: inline-block; overflow: hidden; vertical-align: top; padding: .16em .04em .2em; margin: -.16em -.04em -.2em; }
+.bq .wi { display: inline-block; will-change: transform; }
+.bq.c { text-align: center; }
+.bq.r { text-align: right; }
+.col-ign { color: var(--ign); } .col-ambar { color: var(--ambar); } .col-crema { color: var(--crema); } .col-espacio { color: var(--espacio); } .col-tueste { color: var(--tueste); } .col-acero { color: var(--acero); }
+
+/* ───────── 1 · lanzamiento ───────── */
+.pel.h .l-tit { left: 0; right: 0; top: calc(var(--d) * 276); font-size: calc(var(--d) * 124); line-height: 1.04; }
+.pel.v .l-tit { left: 6%; right: 6%; top: 20%; font-size: calc(var(--d) * 118); line-height: 1.04; }
+.cuenta { position: absolute; left: 0; right: 0; text-align: center; font: 700 calc(var(--d) * 150) var(--mono); letter-spacing: calc(var(--d) * 4); line-height: 1; }
+.pel.h .cuenta { top: calc(var(--d) * 676); }
+.pel.v .cuenta { top: 43%; font-size: calc(var(--d) * 170); }
+
+/* ───────── 2 · manifiesto ───────── */
+.pel.h .m-lab { left: calc(var(--d) * 144); top: calc(var(--d) * 738); }
+.pel.h .m-fr { position: absolute; left: calc(var(--d) * 144); top: calc(var(--d) * 820); width: calc(var(--d) * 1700); font-size: calc(var(--d) * 132); line-height: 1.04; }
+.pel.v .m-lab { left: calc(var(--d) * 70); bottom: calc(var(--d) * 660); }
+.pel.v .m-fr { position: absolute; left: calc(var(--d) * 70); right: calc(var(--d) * 70); bottom: calc(var(--d) * 300); font-size: calc(var(--d) * 112); line-height: 1.04; }
+.pel.v .m-fr { height: calc(var(--d) * 440); }
+.m-fr .bq { left: 0; right: 0; }
+.pel.h .m-fr .bq { top: 0; }
+.pel.v .m-fr .bq { bottom: 0; }
+.marc { position: absolute; font: 500 calc(var(--d) * 40) var(--mono); letter-spacing: calc(var(--d) * 5); white-space: pre; line-height: 1; }
+
+/* ───────── 3 / 10 · lockup NAVE ───────── */
+.lk { position: absolute; display: flex; align-items: center; }
+.lk__s { flex: none; }
+.lk svg { display: block; overflow: hidden; flex: none; }
+.pel.h .lk { left: 50%; transform: translate(-50%, -50%); gap: calc(var(--d) * 66); }
+.pel.h .lk__s { width: calc(var(--d) * 240); height: calc(var(--d) * 240); }
+.pel.h .lk svg { width: calc(var(--d) * 966); height: calc(var(--d) * 240); }
+.pel.v .lk { left: 50%; transform: translate(-50%, -50%); flex-direction: column; gap: calc(var(--d) * 70); }
+.pel.v .lk__s { width: calc(var(--d) * 330); height: calc(var(--d) * 330); }
+.pel.v .lk svg { width: calc(var(--d) * 900); height: calc(var(--d) * 223); }
+.baj { position: absolute; left: 0; right: 0; text-align: center; font: 500 calc(var(--d) * 46) var(--mono); letter-spacing: calc(var(--d) * 7); color: var(--ambar); line-height: 1.3; padding: 0 4%; }
+.pel.h .nv-lk { top: calc(var(--d) * 700); } .pel.h .nv-baj { top: calc(var(--d) * 900); }
+.pel.v .nv-lk { top: 40%; } .pel.v .nv-baj { top: calc(50% + var(--d) * 330); font-size: calc(var(--d) * 40); letter-spacing: calc(var(--d) * 5); }
+
+/* ───────── 4 · ¿Qué es NAVE? ───────── */
+.q-lab { left: calc(var(--d) * 144); top: calc(var(--d) * 298); }
+.pel.v .q-lab { left: calc(var(--d) * 70); top: calc(var(--d) * 250); }
+.q-grupo { position: absolute; inset: 0; visibility: hidden; }
+.q-grupo.on { visibility: visible; }
+/* 4a */
+.cnt-box { position: absolute; overflow: hidden; }
+.pel.h .cnt-box { left: calc(var(--d) * 104); top: calc(var(--d) * 470); width: calc(var(--d) * 1240); height: calc(var(--d) * 620); }
+.pel.v .cnt-box { left: calc(var(--d) * 46); top: calc(var(--d) * 340); width: calc(var(--d) * 1100); height: calc(var(--d) * 560); }
+.cnt { position: absolute; left: calc(var(--d) * 20); top: 0; font: 700 calc(var(--d) * 560) var(--mono); letter-spacing: calc(var(--d) * -24); line-height: 1.1; white-space: nowrap; color: var(--espacio); }
+.pel.v .cnt { font-size: calc(var(--d) * 500); top: calc(var(--d) * 10); letter-spacing: calc(var(--d) * -22); }
+.cnt b { color: var(--ign); font-weight: 700; }
+.pel.h .q-exp { left: calc(var(--d) * 1380); top: calc(var(--d) * 560); width: calc(var(--d) * 1000); font-size: calc(var(--d) * 76); line-height: 1.04; }
+.pel.v .q-exp { left: calc(var(--d) * 70); top: calc(var(--d) * 960); width: calc(var(--d) * 1060); font-size: calc(var(--d) * 80); line-height: 1.04; }
+.q-baj, .q-tec, .c-cod, .md-tec { position: absolute; }
+.pel.h .q-baj { left: calc(var(--d) * 1380); top: calc(var(--d) * 900); font: 500 calc(var(--d) * 40) var(--mono); letter-spacing: calc(var(--d) * 5); color: var(--acero); }
+.pel.v .q-baj { left: calc(var(--d) * 70); top: calc(var(--d) * 1420); font: 500 calc(var(--d) * 36) var(--mono); letter-spacing: calc(var(--d) * 4); color: var(--acero); }
+/* 4b */
+.pel.h .q-fus-t { left: calc(var(--d) * 144); top: calc(var(--d) * 380); font-size: calc(var(--d) * 120); line-height: 1.04; }
+.pel.v .q-fus-t { left: calc(var(--d) * 70); top: calc(var(--d) * 330); font-size: calc(var(--d) * 120); line-height: 1.04; }
+.fus { position: absolute; display: flex; align-items: flex-end; font-weight: 600; font-size: calc(var(--d) * 68); letter-spacing: -.012em; line-height: 1.15; }
+.pel.h .fus { left: calc(var(--d) * 144); right: calc(var(--d) * 144); gap: calc(var(--d) * 36); align-items: center; }
+.pel.v .fus { left: calc(var(--d) * 70); right: calc(var(--d) * 70); flex-direction: column; align-items: stretch; gap: calc(var(--d) * 14); font-size: calc(var(--d) * 66); }
+.fus .izq, .fus .der { position: relative; overflow: hidden; padding: .1em 0 .16em; }
+.pel.v .fus .der { text-align: right; }
+.fus .izq > span, .fus .der > span { display: block; will-change: transform; }
+.fus .pt { flex: 1 1 auto; height: calc(var(--d) * 8); margin-top: calc(var(--d) * 8); transform-origin: left center;
+  background: radial-gradient(circle at 50% 50%, currentColor calc(var(--d) * 3.6), transparent calc(var(--d) * 4)) 0 50% / calc(var(--d) * 22) 100% repeat-x; opacity: .5; }
+.fus .pt.ign { color: var(--ign); opacity: .9; }
+.pel.v .fus .pt { flex: none; width: 100%; }
+/* 4c */
+.pel.h .q-soc-t { left: calc(var(--d) * 144); top: calc(var(--d) * 420); width: calc(var(--d) * 2300); font-size: calc(var(--d) * 150); line-height: 1.04; }
+.pel.v .q-soc-t { left: calc(var(--d) * 70); top: calc(var(--d) * 330); width: calc(var(--d) * 1060); font-size: calc(var(--d) * 150); line-height: 1.04; }
+.verbos { position: absolute; display: flex; }
+.pel.h .verbos { left: calc(var(--d) * 144); top: calc(var(--d) * 760); gap: calc(var(--d) * 32); width: calc(var(--d) * 2272); }
+.pel.v .verbos { left: calc(var(--d) * 70); top: calc(var(--d) * 800); width: calc(var(--d) * 1060); flex-direction: column; gap: calc(var(--d) * 24); }
+.pel.v .verbo { flex: none; width: 100%; }
+.verbo { position: relative; height: calc(var(--d) * 124); flex: 1 1 0; }
+.verbo i { position: absolute; inset: 0; background: var(--espacio); transform-origin: left center; }
+.verbo .txt { position: absolute; left: calc(var(--d) * 40); top: 50%; transform: translateY(-50%); font: 700 calc(var(--d) * 52) var(--mono); letter-spacing: calc(var(--d) * 4); color: var(--crema); line-height: 1; }
+.verbo svg { position: absolute; right: calc(var(--d) * 34); top: 50%; width: calc(var(--d) * 64); height: calc(var(--d) * 64); margin-top: calc(var(--d) * -32); fill: var(--crema); }
+.verbo:last-child svg { fill: var(--ign); }
+.pel.h .q-tec { left: calc(var(--d) * 144); top: calc(var(--d) * 972); font: 500 calc(var(--d) * 46) var(--mono); letter-spacing: calc(var(--d) * 5); color: var(--espacio); }
+.pel.v .q-tec { left: calc(var(--d) * 70); top: calc(var(--d) * 1330); font: 500 calc(var(--d) * 38) var(--mono); letter-spacing: calc(var(--d) * 4); color: var(--espacio); width: calc(var(--d) * 1060); }
+.pel.h .q-fin { left: calc(var(--d) * 144); top: calc(var(--d) * 1060); width: calc(var(--d) * 2000); font-size: calc(var(--d) * 60); font-weight: 600; line-height: 1.04; }
+.pel.v .q-fin { left: calc(var(--d) * 70); top: calc(var(--d) * 1470); width: calc(var(--d) * 1060); font-size: calc(var(--d) * 64); font-weight: 600; line-height: 1.04; }
+
+/* ───────── 5 · clientes ───────── */
+.c-lab { left: calc(var(--d) * 144); top: calc(var(--d) * 268); }
+.pel.v .c-lab { left: calc(var(--d) * 70); top: calc(var(--d) * 250); }
+.c-cod { position: absolute; font: 700 calc(var(--d) * 420) var(--mono); letter-spacing: calc(var(--d) * -10); color: var(--ambar); line-height: 1; white-space: pre; }
+.pel.h .c-cod { left: calc(var(--d) * 130); top: calc(var(--d) * 490); }
+.pel.v .c-cod { left: calc(var(--d) * 56); top: calc(var(--d) * 340); font-size: calc(var(--d) * 380); }
+.c-fl { position: absolute; width: calc(var(--d) * 170); height: calc(var(--d) * 170); fill: var(--ambar); }
+.pel.h .c-fl { left: calc(var(--d) * 740); top: calc(var(--d) * 615); }
+.pel.v .c-fl { left: calc(var(--d) * 700); top: calc(var(--d) * 470); width: calc(var(--d) * 150); height: calc(var(--d) * 150); }
+.pel.h .c-nom { left: calc(var(--d) * 1080); top: calc(var(--d) * 400); width: calc(var(--d) * 1400); font-size: calc(var(--d) * 132); line-height: 1.04; }
+.pel.v .c-nom { left: calc(var(--d) * 70); top: calc(var(--d) * 790); width: calc(var(--d) * 1060); font-size: calc(var(--d) * 130); line-height: 1.04; }
+.c-filas { position: absolute; }
+.pel.h .c-filas { left: calc(var(--d) * 1092); top: calc(var(--d) * 660); width: calc(var(--d) * 1300); }
+.pel.v .c-filas { left: calc(var(--d) * 70); top: calc(var(--d) * 1010); width: calc(var(--d) * 1060); }
+.fila { position: relative; padding-left: calc(var(--d) * 38); margin-bottom: calc(var(--d) * 50); font: 500 calc(var(--d) * 46) var(--mono); letter-spacing: calc(var(--d) * 2); line-height: 1.2; color: var(--crema); }
+.pel.v .fila { font-size: calc(var(--d) * 40); margin-bottom: calc(var(--d) * 38); }
+.fila::before { content: ""; position: absolute; left: 0; top: calc(var(--d) * 18); width: calc(var(--d) * 18); height: calc(var(--d) * 18); border-radius: 50%; background: var(--b, var(--crema)); opacity: var(--bo, 1); }
+
+/* ───────── 6 · oferta ───────── */
+.o-lab { left: calc(var(--d) * 144); top: calc(var(--d) * 268); }
+.pel.v .o-lab { left: calc(var(--d) * 70); top: calc(var(--d) * 250); }
+.o-tit { position: absolute; font-size: calc(var(--d) * 110); line-height: 1.04; }
+.pel.h .o-tit { left: calc(var(--d) * 144); top: calc(var(--d) * 330); }
+.pel.v .o-tit { left: calc(var(--d) * 70); top: calc(var(--d) * 330); }
+.o-num { position: absolute; text-align: right; }
+.pel.h .o-num { right: calc(var(--d) * 144); top: calc(var(--d) * 330); }
+.pel.v .o-num { right: calc(var(--d) * 70); top: calc(var(--d) * 300); }
+.o-num .n { display: block; font: 700 calc(var(--d) * 120) var(--mono); color: var(--ambar); line-height: 1; }
+.o-num .c { position: absolute; right: calc(var(--d) * 190); top: calc(var(--d) * 80); white-space: nowrap; font: 500 calc(var(--d) * 36) var(--mono); letter-spacing: calc(var(--d) * 4); color: var(--crema); opacity: .75; }
+.pel.v .o-num .c { right: 0; top: calc(var(--d) * 124); }
+.o-reg { position: absolute; height: calc(var(--d) * 2); background: rgba(255,245,238,.3); transform-origin: left center; }
+.pel.h .o-reg { left: calc(var(--d) * 144); right: calc(var(--d) * 144); top: calc(var(--d) * 480); }
+.pel.v .o-reg { left: calc(var(--d) * 70); right: calc(var(--d) * 70); top: calc(var(--d) * 540); }
+.o-tab { position: absolute; }
+.pel.h .o-tab { left: calc(var(--d) * 144); right: calc(var(--d) * 144); top: calc(var(--d) * 520); }
+.pel.v .o-tab { left: calc(var(--d) * 70); right: calc(var(--d) * 70); top: calc(var(--d) * 580); }
+.o-fila { position: relative; display: grid; grid-template-columns: calc(var(--d) * 376) 1fr; align-items: start; padding: calc(var(--d) * 12) 0 calc(var(--d) * 13); border-bottom: 1px solid rgba(255,245,238,.14); }
+.pel.h .o-fila.p1 { padding-top: calc(var(--d) * 46); padding-bottom: calc(var(--d) * 48); }
+.pel.v .o-fila { grid-template-columns: calc(var(--d) * 200) 1fr; padding-top: calc(var(--d) * 24); padding-bottom: calc(var(--d) * 26); }
+.o-fila .cod { font: 700 calc(var(--d) * 44) var(--mono); letter-spacing: calc(var(--d) * 2); color: var(--ambar); padding-top: calc(var(--d) * 10); }
+.o-fila .nom { font-weight: 650; font-size: calc(var(--d) * 64); line-height: 1.08; color: var(--crema); }
+.pel.v .o-fila .nom { font-size: calc(var(--d) * 58); }
+.o-fila .alc { font-weight: 450; font-size: calc(var(--d) * 44); line-height: 1.15; color: var(--crema); opacity: .8; margin-top: calc(var(--d) * 8); }
+.pel.v .o-fila .alc { font-size: calc(var(--d) * 40); }
+.o-fila .hl { position: absolute; inset: 4px calc(var(--d) * -24) 4px calc(var(--d) * -24); background: var(--ambar); transform-origin: left center; transform: scaleX(0); z-index: -1; }
+.o-fila.oscura .cod, .o-fila.oscura .nom, .o-fila.oscura .alc { color: var(--tueste); }
+.o-fila.oscura .alc { opacity: .85; }
+
+/* ───────── 7 · modelo operativo ───────── */
+.md-lab { left: calc(var(--d) * 144); top: calc(var(--d) * 268); color: var(--tueste); }
+.pel.v .md-lab { left: calc(var(--d) * 70); top: calc(var(--d) * 250); }
+.md-col { position: absolute; width: calc(var(--d) * 900); text-align: center; font-size: calc(var(--d) * 54); line-height: 1.04; margin-left: calc(var(--d) * -450); }
+.pel.h .md-col { top: calc(var(--d) * 350); }
+.pel.v .md-col { top: calc(var(--d) * 340); width: calc(var(--d) * 560); margin-left: calc(var(--d) * -280); font-size: calc(var(--d) * 56); }
+.md-col .bq { left: 0; right: 0; position: relative; }
+.md-fl { position: absolute; width: calc(var(--d) * 84); height: calc(var(--d) * 84); margin: 0 0 0 calc(var(--d) * -42); fill: var(--tueste); }
+.pel.h .md-fl { top: calc(var(--d) * 458); } .pel.v .md-fl { top: calc(var(--d) * 440); }
+.md-an { position: absolute; width: 1px; height: 1px; }
+.md-tec { position: absolute; left: 0; right: 0; text-align: center; font: 500 calc(var(--d) * 42) var(--mono); letter-spacing: calc(var(--d) * 6); color: var(--tueste); }
+.pel.h .md-tec { top: calc(var(--d) * 752); } .pel.v .md-tec { top: calc(var(--d) * 790); font-size: calc(var(--d) * 36); }
+.md-fila { position: absolute; display: flex; align-items: flex-start; gap: calc(var(--d) * 56); }
+.pel.h .md-fila { left: calc(var(--d) * 420); width: calc(var(--d) * 1720); }
+.pel.v .md-fila { left: calc(var(--d) * 70); width: calc(var(--d) * 1060); gap: calc(var(--d) * 36); }
+.md-fila .ln { position: absolute; left: 0; right: 0; top: 0; height: calc(var(--d) * 2); background: var(--tueste); opacity: .25; transform-origin: left center; }
+.md-fila .n { flex: none; padding-top: calc(var(--d) * 22); font: 700 calc(var(--d) * 56) var(--mono); color: var(--tueste); line-height: 1; }
+.md-fila .bq { position: relative; font-size: calc(var(--d) * 58); line-height: 1.04; padding-top: calc(var(--d) * 20); font-weight: 650; }
+.pel.v .md-fila .bq { font-size: calc(var(--d) * 56); }
+.md-marq { position: absolute; left: calc(var(--d) * 144); right: calc(var(--d) * 144); overflow: hidden; white-space: nowrap; height: calc(var(--d) * 76); color: var(--tueste); font: 500 calc(var(--d) * 40) var(--mono); letter-spacing: calc(var(--d) * 4); line-height: calc(var(--d) * 76); }
+.pel.h .md-marq { top: calc(var(--d) * 1186); } .pel.v .md-marq { left: calc(var(--d) * 70); right: calc(var(--d) * 70); bottom: calc(var(--d) * 150); }
+.md-marq span { position: absolute; left: 0; top: 0; white-space: pre; will-change: transform; }
+
+/* ───────── 8 · partners ───────── */
+.p-lab { left: calc(var(--d) * 144); top: calc(var(--d) * 268); }
+.pel.v .p-lab { left: calc(var(--d) * 70); top: calc(var(--d) * 250); }
+.p-tit { position: absolute; font-size: calc(var(--d) * 84); line-height: 1.04; }
+.pel.h .p-tit { left: calc(var(--d) * 144); top: calc(var(--d) * 330); width: calc(var(--d) * 1900); }
+.pel.v .p-tit { left: calc(var(--d) * 70); top: calc(var(--d) * 330); width: calc(var(--d) * 1060); font-size: calc(var(--d) * 78); }
+.p-nodo { position: absolute; width: 0; height: 0; }
+.p-nodo .nm { position: absolute; left: calc(var(--d) * -350); width: calc(var(--d) * 700); top: calc(var(--d) * 14); text-align: center; font-size: calc(var(--d) * 68); line-height: 1.04; }
+.p-nodo .cp { position: absolute; left: calc(var(--d) * -350); width: calc(var(--d) * 700); top: calc(var(--d) * 150); text-align: center; font: 500 calc(var(--d) * 38) var(--mono); letter-spacing: calc(var(--d) * 1.5); line-height: 1.25; color: var(--crema); opacity: .8; }
+
+/* ───────── 9 · valores ───────── */
+.v-lab { left: calc(var(--d) * 144); top: calc(var(--d) * 268); }
+.pel.v .v-lab { left: calc(var(--d) * 70); top: calc(var(--d) * 250); }
+.v-tit { position: absolute; font-size: calc(var(--d) * 120); line-height: 1.04; }
+.pel.h .v-tit { left: calc(var(--d) * 144); top: calc(var(--d) * 330); width: calc(var(--d) * 1600); }
+.pel.v .v-tit { left: calc(var(--d) * 70); top: calc(var(--d) * 330); width: calc(var(--d) * 1060); }
+.v-cnt { position: absolute; font: 700 calc(var(--d) * 180) var(--mono); line-height: 1; white-space: nowrap; }
+.pel.h .v-cnt { right: calc(var(--d) * 144); top: calc(var(--d) * 340); }
+.pel.v .v-cnt { left: calc(var(--d) * 70); top: calc(var(--d) * 520); font-size: calc(var(--d) * 170); }
+.v-cnt .a { color: var(--ign); } .v-cnt .b { color: var(--acero); opacity: .5; }
+.v-lista { position: absolute; }
+.pel.h .v-lista { left: calc(var(--d) * 144); right: calc(var(--d) * 144); top: calc(var(--d) * 590); }
+.pel.v .v-lista { left: calc(var(--d) * 70); right: calc(var(--d) * 70); top: calc(var(--d) * 760); }
+.v-fila { position: relative; display: flex; align-items: center; gap: calc(var(--d) * 28); height: calc(var(--d) * 165); }
+.pel.v .v-fila { height: auto; min-height: calc(var(--d) * 170); padding: calc(var(--d) * 20) 0; }
+.v-fila .ck { position: relative; flex: none; width: calc(var(--d) * 52); height: calc(var(--d) * 52); border: calc(var(--d) * 3) solid var(--espacio); border-radius: 50%; }
+.v-fila .ck i { position: absolute; inset: calc(var(--d) * -3); border-radius: 50%; background: var(--ign); transform: scale(0); }
+.v-fila .no { flex: none; font: 500 calc(var(--d) * 40) var(--mono); letter-spacing: calc(var(--d) * 2); color: var(--acero); }
+.v-fila .tx { flex: none; font-weight: 600; font-size: calc(var(--d) * 66); letter-spacing: -.012em; color: var(--espacio); line-height: 1.08; }
+.pel.h .v-fila .tx { white-space: nowrap; }
+.pel.v .v-fila .tx { flex: 1 1 auto; font-size: calc(var(--d) * 60); }
+.v-fila .pt { flex: 1 1 auto; height: calc(var(--d) * 6); margin-top: calc(var(--d) * 8); transform-origin: left center; opacity: .4; color: var(--espacio);
+  background: radial-gradient(circle at 50% 50%, currentColor calc(var(--d) * 2.8), transparent calc(var(--d) * 3.2)) 0 50% / calc(var(--d) * 20) 100% repeat-x; }
+.pel.v .v-fila .pt { display: none; }
+.v-fila .ok { flex: none; font: 700 calc(var(--d) * 44) var(--mono); letter-spacing: calc(var(--d) * 2); color: var(--ign); min-width: calc(var(--d) * 80); text-align: right; }
+
+/* ───────── 10 · órbita ───────── */
+.pel.h .or-q { left: 0; right: 0; top: calc(var(--d) * 190); font-size: calc(var(--d) * 220); line-height: 1.04; }
+.pel.v .or-q { left: 4%; right: 4%; top: 22%; font-size: calc(var(--d) * 190); line-height: 1.04; }
+.pel.h .or-lk { top: calc(var(--d) * 640); } .pel.h .or-baj { top: calc(var(--d) * 860); }
+.pel.v .or-lk { top: 40%; } .pel.v .or-baj { top: calc(50% + var(--d) * 330); font-size: calc(var(--d) * 40); letter-spacing: calc(var(--d) * 5); }
+
+/* ───────── HUD ───────── */
+.hud { position: absolute; inset: 0; --tinta: #FFF5EE; color: var(--tinta); }
+.hud .cr { position: absolute; width: calc(var(--d) * 28); height: calc(var(--d) * 28); margin: calc(var(--d) * -14) 0 0 calc(var(--d) * -14); opacity: .5; }
+.hud .cr::before, .hud .cr::after { content: ""; position: absolute; background: var(--tinta); }
+.hud .cr::before { left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; } .hud .cr::after { top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px; }
+.hud .bit { position: absolute; display: flex; align-items: center; white-space: nowrap; }
+.pel.h .hud .bit { left: calc(var(--d) * 144); bottom: calc(var(--d) * 70); }
+.pel.v .hud .bit { left: calc(var(--d) * 70); bottom: calc(var(--d) * 70); }
+.hud .bit .ps { display: flex; gap: calc(var(--d) * 14); align-items: center; margin-right: calc(var(--d) * 28); }
+.hud .bit .ps i { display: block; border-radius: 50%; background: var(--tinta); width: calc(var(--d) * 8.4); height: calc(var(--d) * 8.4); opacity: .35; }
+.hud .bit .ps i.on { background: var(--ign); width: calc(var(--d) * 14); height: calc(var(--d) * 14); opacity: 1; }
+.hud .bit .tx { font: 500 calc(var(--d) * 40) var(--mono); letter-spacing: calc(var(--d) * 4); opacity: .6; }
+.pel.v .hud .bit { flex-direction: column; align-items: flex-start; gap: calc(var(--d) * 22); }
+.pel.v .hud .bit .tx { font-size: calc(var(--d) * 34); letter-spacing: calc(var(--d) * 3); }
+.hud .alt { position: absolute; width: 0; }
+.pel.h .hud .alt { right: calc(var(--d) * 96); bottom: calc(var(--d) * 244); }
+.pel.v .hud .alt { right: calc(var(--d) * 44); bottom: calc(var(--d) * 130); }
+.hud .alt i { position: absolute; left: calc(var(--d) * -4); width: calc(var(--d) * 8); height: calc(var(--d) * 8); border-radius: 50%; background: var(--tinta); opacity: .28; }
+.hud .alt i.on { background: var(--ign); opacity: 1; width: calc(var(--d) * 9.2); height: calc(var(--d) * 9.2); }

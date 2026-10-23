@@ -12,8 +12,8 @@ button { font: inherit; color: inherit; }
 
 /* ── escena ── */
 .escena { position: relative; flex: 1 1 auto; min-height: 0; background: var(--noche); overflow: hidden; }
-.escena canvas { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: block; background: var(--noche); }
-.toque { position: absolute; inset: 0; background: none; border: 0; padding: 0; cursor: pointer; }
+.escena .pel { position: absolute; inset: 0; }
+.toque { position: absolute; inset: 0; z-index: 4; background: none; border: 0; padding: 0; cursor: pointer; }
 .destello { position: absolute; left: 50%; top: 50%; width: 76px; height: 76px; margin: -38px 0 0 -38px; border-radius: 50%;
   background: rgba(0,19,29,.6); opacity: 0; pointer-events: none; }
 .destello.on { animation: destello .5s ease-out; }
@@ -92,10 +92,7 @@ button { font: inherit; color: inherit; }
 }
 @media (max-width: 380px) { .redes a { width: 40px; height: 40px; } .redes { gap: 6px; } }
 
-/* ── celular vertical: película 16:9 y controles juntos, al centro ── */
 @media (orientation: portrait) and (max-width: 900px) {
-  .app { justify-content: center; }
-  .escena { flex: 0 0 auto; aspect-ratio: 16 / 9; }
   .barra { border-top: 0; }
   .inicio__poster { display: none; }
 }

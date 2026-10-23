@@ -140,14 +140,28 @@ function cargarAudio(id) {
   audio.preload = 'auto'; audio.muted = mudo;
   audio.addEventListener('ended', reiniciar);
   audio.addEventListener('waiting', () => { reloj.base = pos(); });
+  audio.addEventListener('error', () => soltarAudio(a0));     // no cargó o el navegador no lo decodifica
+  const a0 = audio;
+}
+
+// Sin audio utilizable, la película sigue con su reloj propio desde donde iba.
+function soltarAudio(a) {
+  if (a !== audio) return;
+  const p = Math.min(duracion, Math.max(0, a.currentTime - desfase()));
+  audio = null; reloj.base = p; reloj.desde = performance.now();
+  const na = $('notaAudio'); na.hidden = false; na.textContent = t('sinAudio');
 }
 
 async function reproducir() {
   jugando = true; app.dataset.pausa = '0';
   reloj.desde = performance.now();
   if (audio) {
-    try { await audio.play(); }
-    catch (e) { if (e && e.name === 'NotAllowedError') { audio.muted = mudo = true; app.dataset.mudo = '1'; try { await audio.play(); } catch {} } }
+    const a = audio;
+    try { await a.play(); }
+    catch (e) {
+      if (e && e.name === 'NotAllowedError') { a.muted = mudo = true; app.dataset.mudo = '1'; try { await a.play(); } catch { soltarAudio(a); } }
+      else soltarAudio(a);
+    }
   }
   textos(); armarOcultar();
 }

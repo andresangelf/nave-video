@@ -70,7 +70,7 @@
 .q-lab { left: calc(var(--d) * 144); top: calc(var(--d) * 298); }
 .pel.v .q-lab { left: calc(var(--d) * 70); top: calc(var(--d) * 250); }
 .q-grupo { position: absolute; inset: 0; visibility: hidden; }
-.q-grupo.on { visibility: visible; }
+.esc.on .q-grupo.on { visibility: visible; }
 /* 4a */
 .cnt-box { position: absolute; overflow: hidden; }
 .pel.h .cnt-box { left: calc(var(--d) * 104); top: calc(var(--d) * 470); width: calc(var(--d) * 1240); height: calc(var(--d) * 620); }
@@ -232,7 +232,8 @@
 .hud .cr::before, .hud .cr::after { content: ""; position: absolute; background: var(--tinta); }
 .hud .cr::before { left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; } .hud .cr::after { top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px; }
 .hud .bit { position: absolute; display: flex; align-items: center; white-space: nowrap; }
-.pel.h .hud .bit { left: calc(var(--d) * 144); bottom: calc(var(--d) * 70); }
+.pel.h .hud .bit { left: calc(var(--d) * 144); bottom: max(calc(var(--d) * 70), 66px); }
+@media (max-height: 460px) { .pel.h .hud .bit { bottom: max(calc(var(--d) * 70), 54px); } }
 .pel.v .hud .bit { left: calc(var(--d) * 70); bottom: calc(var(--d) * 70); }
 .hud .bit .ps { display: flex; gap: calc(var(--d) * 14); align-items: center; margin-right: calc(var(--d) * 28); }
 .hud .bit .ps i { display: block; border-radius: 50%; background: var(--tinta); width: calc(var(--d) * 8.4); height: calc(var(--d) * 8.4); opacity: .35; }

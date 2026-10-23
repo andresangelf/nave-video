@@ -10,7 +10,7 @@ Todo es función del tiempo del audio: pausar, saltar o cambiar de idioma siempr
 
 - Idioma ES/EN: se cambia en cualquier momento sin perder la posición.
 - Al terminar vuelve a empezar solo.
-- Pausa, línea de tiempo, silencio, pantalla completa. Teclado: `Espacio`, `←`/`→` ±5 s, `M`, `F`.
+- Interfaz mínima y flotante sobre la película: píldora de controles abajo (pausa, línea de tiempo, ES/EN, silencio, pantalla completa), y arriba a la derecha el botón de acción y un menú «···» con las redes. Los controles se esconden solos a los 3 s mientras se reproduce; al mover el cursor o tocar vuelven (en celular, el primer toque los muestra y el siguiente pausa). Teclado: `Espacio`, `←`/`→` ±5 s, `M`, `F`, `Esc`.
 - Si el audio no carga, la película sigue con su propio reloj. Respeta «reducir movimiento».
 - Se arranca con un toque porque los navegadores no permiten audio automático.
 - Tipografías: Inter Tight y JetBrains Mono (Google Fonts).

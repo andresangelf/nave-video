@@ -50,7 +50,7 @@ function flechaSvg(parent, cls) {
 function vis(e, a) { if (a <= 0.003) { e.style.visibility = 'hidden'; e.style.opacity = '0'; } else { e.style.visibility = ''; e.style.opacity = a >= 0.999 ? '' : String(a); } }
 
 /* ───────── motor ───────── */
-export function crearVivo(raiz, { reducido = () => false } = {}) {
+export function crearVivo(raiz, { reducido = () => false, reservaB = () => 0 } = {}) {
   let red = false;
   raiz.classList.add('pel');
   const cvF = el('canvas', '', raiz); cvF.id = 'fondo';
@@ -603,9 +603,10 @@ export function crearVivo(raiz, { reducido = () => false } = {}) {
     const r = raiz.getBoundingClientRect(); const vw = Math.max(2, r.width), vh = Math.max(2, r.height);
     const v = vw / vh < 1.15; Lay.v = v; raiz.classList.toggle('v', v); raiz.classList.toggle('h', !v);
     Lay.dpr = Math.min(window.devicePixelRatio || 1, 2); Lay.vw = vw; Lay.vh = vh;
+    const vhE = v ? Math.max(200, vh - reservaB()) : vh;      // en vertical se deja libre la franja de los controles flotantes
     if (!v) { Lay.d = Math.min(vw / 2560, vh / 1440); Lay.Wu = 2560; Lay.Hu = 1440; }
-    else { Lay.d = Math.min(vw / 1200, vh / 1750); Lay.Wu = 1200; Lay.Hu = vh / Lay.d; }
-    Lay.sx = (vw - Lay.Wu * Lay.d) / 2; Lay.sy = (vh - Lay.Hu * Lay.d) / 2; 
+    else { Lay.d = Math.min(vw / 1200, vhE / 1750); Lay.Wu = 1200; Lay.Hu = vhE / Lay.d; }
+    Lay.sx = (vw - Lay.Wu * Lay.d) / 2; Lay.sy = (vhE - Lay.Hu * Lay.d) / 2; 
     Lay.VX0 = -Lay.sx / Lay.d; Lay.VY0 = -Lay.sy / Lay.d; Lay.VW = vw / Lay.d; Lay.VH = vh / Lay.d;
     Lay.kp = Math.max(1, 1.1 / (2.6 * Lay.d));
     raiz.style.setProperty('--d', `${Lay.d}px`);

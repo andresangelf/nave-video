@@ -12,10 +12,10 @@ const rango = $('rango'), avance = $('avance'), tiempo = $('tiempo');
 
 const TXT = {
   es: { titulo: 'Listos para el despegue.', elige: 'Elige el idioma del audio', proximo: 'Próximamente',
-    play: 'Reproducir', pausa: 'Pausa', linea: 'Línea de tiempo', mudo: 'Silenciar', activar: 'Activar sonido', pantalla: 'Pantalla completa',
+    play: 'Reproducir', pausa: 'Pausa', linea: 'Línea de tiempo', mudo: 'Silenciar', activar: 'Activar sonido', pantalla: 'Pantalla completa', redes: 'Redes',
     sinAudio: 'El audio de este idioma aún no está disponible. Se reproduce solo la película.' },
   en: { titulo: 'Ready for liftoff.', elige: 'Choose the audio language', proximo: 'Coming soon',
-    play: 'Play', pausa: 'Pause', linea: 'Timeline', mudo: 'Mute', activar: 'Unmute', pantalla: 'Fullscreen',
+    play: 'Play', pausa: 'Pause', linea: 'Timeline', mudo: 'Mute', activar: 'Unmute', pantalla: 'Fullscreen', redes: 'Social links',
     sinAudio: 'Audio for this language is not available yet. Playing the film only.' },
 };
 
@@ -33,7 +33,10 @@ const svg = (p) => `<svg viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`;
 
 // ── película: fondo en canvas + escenas en HTML que se reacomodan a la pantalla ──
 const reducido = matchMedia('(prefers-reduced-motion: reduce)');
-const vivo = crearVivo($('pel'), { reducido: () => reducido.matches });
+// franja inferior que los controles flotantes ocupan en vertical (píldora + zona segura del teléfono)
+const sonda = document.createElement('div'); sonda.style.cssText = 'position:fixed;left:0;bottom:0;width:0;padding-bottom:env(safe-area-inset-bottom);visibility:hidden'; document.body.appendChild(sonda);
+const reservaB = () => 74 + (parseFloat(getComputedStyle(sonda).paddingBottom) || 0);
+const vivo = crearVivo($('pel'), { reducido: () => reducido.matches, reservaB });
 const duracion = vivo.duracion;
 
 // ── estado ──
@@ -183,7 +186,10 @@ rango.addEventListener('pointerup', () => { arrastrando = false; });
 
 // ── controles ──
 $('bPlay').addEventListener('click', alternar);
-$('toque').addEventListener('click', (e) => { alternar(); e.currentTarget.blur(); });
+// con los controles escondidos, el primer toque solo los muestra (como en un reproductor); el siguiente pausa
+let ocultoAlTocar = false;
+$('toque').addEventListener('pointerdown', () => { ocultoAlTocar = app.classList.contains('ocultar'); });
+$('toque').addEventListener('click', (e) => { if (!ocultoAlTocar) alternar(); ocultoAlTocar = false; e.currentTarget.blur(); });
 $('bMudo').addEventListener('click', () => {
   mudo = !mudo; app.dataset.mudo = mudo ? '1' : '0';
   if (audio) audio.muted = mudo;
@@ -207,9 +213,10 @@ window.addEventListener('keydown', (e) => {
   else if (e.key === 'f' && pc) $('bPantalla').click();
 });
 
-// la barra se esconde sola solo en pantalla completa mientras se reproduce
+// los controles flotantes se esconden solos mientras se reproduce y reaparecen al mover el cursor o tocar
+const menuAbierto = () => $('redesCaja').classList.contains('abierta');
 function mostrarBarra() { app.classList.remove('ocultar'); clearTimeout(ocultoTimer); }
-function armarOcultar() { clearTimeout(ocultoTimer); if (enPc() && jugando) ocultoTimer = setTimeout(() => app.classList.add('ocultar'), 3000); }
+function armarOcultar() { clearTimeout(ocultoTimer); if (jugando && iniciado && !menuAbierto()) ocultoTimer = setTimeout(() => app.classList.add('ocultar'), 3000); }
 ['pointermove', 'pointerdown', 'keydown'].forEach((n) => window.addEventListener(n, () => { mostrarBarra(); armarOcultar(); }, { passive: true }));
 
 function destello() { const d = $('destello'); d.classList.remove('on'); void d.offsetWidth; d.classList.add('on'); }
@@ -221,6 +228,14 @@ for (const r of C.redes || []) {
   a.href = r.url; a.target = r.url.startsWith('mailto:') ? '_self' : '_blank'; a.rel = 'noopener'; a.title = a.ariaLabel = r.nombre;
   a.innerHTML = svg(ICONOS[r.icono] || ICONOS.web);
   $('redes').appendChild(a);
+}
+if ($('redes').children.length) {
+  $('redesCaja').hidden = false;
+  const caja = $('redesCaja'), b = $('bRedes');
+  const abrir = (v) => { caja.classList.toggle('abierta', v); b.setAttribute('aria-expanded', String(v)); if (v) mostrarBarra(); else armarOcultar(); };
+  b.addEventListener('click', (e) => { e.stopPropagation(); abrir(!caja.classList.contains('abierta')); });
+  document.addEventListener('click', (e) => { if (!caja.contains(e.target)) abrir(false); });
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') abrir(false); });
 }
 
 // ── arranque ──
